@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepoCliente extends JpaRepository <Cliente, Integer> {
-    //Cliente findByUsuario(String usuario);
+
 }

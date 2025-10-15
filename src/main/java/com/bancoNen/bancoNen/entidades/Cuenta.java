@@ -1,6 +1,10 @@
 package com.bancoNen.bancoNen.entidades;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class Cuenta {
     @Id
@@ -16,35 +20,4 @@ public class Cuenta {
     public Cuenta() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Cliente getClienteAsociado() {
-        return clienteAsociado;
-    }
-
-    public void setClienteAsociado(Cliente clienteAsociado) {
-        this.clienteAsociado = clienteAsociado;
-    }
-
-    public Long getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Long saldo) {
-        this.saldo = saldo;
-    }
-
-    public String getNumeroCuenta() {
-        return numeroCuenta;
-    }
-
-    public void setNumeroCuenta(String numeroCuenta) {
-        this.numeroCuenta = numeroCuenta;
-    }
 }

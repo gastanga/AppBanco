@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootApplication
@@ -20,47 +21,51 @@ public class BancoNenApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(RepoCliente repoCliente,
-						   RepoCuenta repoCuenta,
-						   RepoProducto repoProducto) {
-		System.out.println("🚀 init corriendo...");
+	CommandLineRunner init(RepoCliente repoCliente) {
 		return args -> {
+			try {
+				System.out.println("🚀 Iniciando carga de datos...");
 
-			// 1️⃣ Crear Cliente
-			Cliente cliente = new Cliente();
-			cliente.setUsuario("gaston91");
-			cliente.setContrasena("1234");
-			cliente.setEdad(30);
-			cliente.setMail("gaston@example.com");
+				// Crear cliente
+				Cliente cliente = new Cliente();
+				cliente.setUsuario("gaston91");
+				cliente.setContrasena("1234");
+				cliente.setEdad(30);
+				cliente.setMail("gaston@example.com");
 
-			// 2️⃣ Crear Cuenta y asociar a Cliente
-			Cuenta cuenta = new Cuenta();
-			cuenta.setNumeroCuenta("ACC12345");
-			cuenta.setSaldo(1000L);
-			cuenta.setClienteAsociado(cliente);
-			cliente.setCuenta(cuenta);
+				// Crear cuenta
+				Cuenta cuenta = new Cuenta();
+				cuenta.setNumeroCuenta("ACC12345");
+				cuenta.setSaldo(1000L);
+				cuenta.setClienteAsociado(cliente);
+				cliente.setCuenta(cuenta);
 
-			// 3️⃣ Crear Producto y asociar al Cliente
-			Producto producto = new Producto();
-			producto.setNombre("Tarjeta Crédito");
-			producto.setPrecio(500L);
-			producto.setTipo(Producto.TipoProducto.TARJETA_CREDITO);
-			producto.setClienteAsociado(cliente);
+				// Crear productos
+				Producto producto1 = new Producto();
+				producto1.setNombre("Tarjeta Crédito Gold");
+				producto1.setPrecio(500L);
+				producto1.setTipo(Producto.TipoProducto.TARJETA_CREDITO);
+				producto1.setClienteAsociado(cliente);
 
-			// Asociar producto al cliente
-			cliente.setProductos(List.of(producto));
+				Producto producto2 = new Producto();
+				producto2.setNombre("Cuenta Ahorro");
+				producto2.setPrecio(0L);
+				producto2.setTipo(Producto.TipoProducto.AHORRO);
+				producto2.setClienteAsociado(cliente);
 
-			// 4️⃣ Guardar en la base de datos
-			repoCliente.save(cliente); // cascada guarda Cuenta y Productos automáticamente
-			System.out.println("💾 Cliente guardado: " + cliente.getId());
+				cliente.setProductos(Arrays.asList(producto1, producto2));
 
+				// Guardar todo usando cascada desde el cliente
+				cliente = repoCliente.save(cliente);
 
-			// 5️⃣ Recuperar todos los Clientes y mostrar info
-			List<Cliente> clientes = repoCliente.findAll();
-			clientes.forEach(c -> {
-				System.out.println("Cliente: " + c.getUsuario() + " - Cuenta: " + c.getCuenta().getNumeroCuenta());
-				c.getProductos().forEach(p -> System.out.println("Producto: " + p.getNombre() + " Tipo: " + p.getTipo()));
-			});
+				System.out.println("✅ Cliente guardado con ID: " + cliente.getId());
+				System.out.println("✅ Cuenta guardada con número: " + cliente.getCuenta().getNumeroCuenta());
+				System.out.println("✅ Productos guardados: " + cliente.getProductos().size());
+
+			} catch (Exception e) {
+				System.err.println("❌ Error al guardar datos: " + e.getMessage());
+				e.printStackTrace();
+			}
 		};
 	}
 
