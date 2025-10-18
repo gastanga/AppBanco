@@ -5,14 +5,16 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @Entity
 public class Cliente {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
-
+    private String nombres;
+    private String apellidos;
+    private String DNI;
     private String usuario;
     private String contrasena;
     private int edad;

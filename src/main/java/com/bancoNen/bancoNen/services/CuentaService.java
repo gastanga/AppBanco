@@ -13,7 +13,7 @@ public class CuentaService {
         this.repoCuenta = repoCuenta;
     }
 
-    public void depositar (int idCuenta, Long monto) {
+    public Long depositar (int idCuenta, Long monto) {
         if(monto == null || monto <= 0) {
             throw new IllegalArgumentException("El monto a depositar debe ser mayor a cero");
         }
@@ -25,9 +25,10 @@ public class CuentaService {
         cuenta.setSaldo(cuenta.getSaldo() + monto);
         repoCuenta.save(cuenta);
         System.out.println("Depósito realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
+        return cuenta.getSaldo();
     }
 
-    public void retirar (int idCuenta, Long monto) {
+    public Long retirar (int idCuenta, Long monto) {
         if(monto == null || monto <=0) {
             throw new IllegalArgumentException("El monto a retirar debe ser mayor a cero");
         }
@@ -43,6 +44,7 @@ public class CuentaService {
         cuenta.setSaldo(cuenta.getSaldo() - monto);
         repoCuenta.save(cuenta);
         System.out.println("Retiro realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
+        return cuenta.getSaldo();
     }
 
 

@@ -13,7 +13,7 @@ public class Cuenta {
     @OneToOne
     @JoinColumn (name = "cliente_id")
     private Cliente clienteAsociado;
-    private Long saldo;
+    private Long saldo = 0L;
     @Column(unique = true)
     private String numeroCuenta;
 

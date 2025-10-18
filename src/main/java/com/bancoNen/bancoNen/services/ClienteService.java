@@ -23,7 +23,32 @@ public class ClienteService {
     private RepoProducto repoProducto;
 
     public Cliente crearCliente(Cliente cliente) {
-        return repoCliente.save(cliente);
+        String dni = cliente.getDNI();
+        if (dni == null || !dni.matches("\\d{8}")) {
+            throw new IllegalArgumentException("El DNI debe contener exactamente 8 dígitos numéricos.");
+        }
+        Cliente clienteGuardado = repoCliente.save(cliente);
+
+        Cuenta cuenta = new Cuenta();
+        cuenta.setNumeroCuenta(generarNumeroCuentaUnico());
+        cuenta.setClienteAsociado(clienteGuardado);
+        repoCuenta.save(cuenta);
+
+        Producto producto = new Producto();
+        producto.setNombre("Cuenta Bancaria " + cuenta.getNumeroCuenta());
+        producto.setClienteAsociado(clienteGuardado);
+        producto.setTipo(Producto.TipoProducto.CORRIENTE);
+        repoProducto.save(producto);
+
+        return clienteGuardado;
+    }
+
+    private String generarNumeroCuentaUnico() {
+        String numeroCuenta;
+        do {
+            numeroCuenta = String.format("%016d", new java.util.Random().nextLong(1_0000_0000_0000_0000L));
+        } while (repoCuenta.existsByNumeroCuenta(numeroCuenta));
+        return numeroCuenta;
     }
 
     public List<Cliente> listarClientes() {
