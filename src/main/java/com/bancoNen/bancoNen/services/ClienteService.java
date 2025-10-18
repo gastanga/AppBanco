@@ -75,4 +75,25 @@ public class ClienteService {
         repoProducto.save(productoNuevo);
         repoCliente.save(cliente);
     }
+
+    public Cliente iniciarSesion (String usuario, String contrasena) {
+        Cliente cliente = repoCliente.findByUsuario(usuario)
+                        .orElseThrow(() -> new IllegalArgumentException("El usuario " + usuario + " no existe."));
+                if (!cliente.getContrasena().equals(contrasena)) {
+            throw new IllegalArgumentException("Contraseña incorrecta para el usuario " + usuario + ".");
+                }
+        System.out.println("Inicio de sesión exitoso para el usuario " + usuario + ".");
+        return cliente;
+    }
+
+    public Long consultarSaldo (int idCliente) {
+        Cliente cliente = buscarPorId(idCliente);
+        Cuenta cuenta = cliente.getCuenta();
+        if (cuenta == null) {
+            throw new IllegalArgumentException("El cliente con ID " + idCliente + " no tiene una cuenta asociada.");
+        }
+        System.out.println("El saldo de la cuenta del cliente " + cliente.getUsuario() + " es: " + cuenta.getSaldo());
+        return cuenta.getSaldo();
+    }
+
 }

@@ -11,9 +11,12 @@ public class Producto {
     @ManyToOne
     private Cliente clienteAsociado;
     private String nombre;
-    private Long precio;
     @Enumerated(EnumType.STRING)
     private TipoProducto tipo;
-    public enum TipoProducto {AHORRO, CORRIENTE, TARJETA_CREDITO, TARJETA_DEBITO, PRESTAMO}
+    public enum TipoProducto { TARJETA_CREDITO,
+        TARJETA_DEBITO,
+        PRESTAMO,
+        AHORRO,
+        CORRIENTE}
 
 }
