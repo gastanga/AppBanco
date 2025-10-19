@@ -3,6 +3,9 @@ import com.bancoNen.bancoNen.entidades.Cuenta;
 import com.bancoNen.bancoNen.entidades.Producto;
 import com.bancoNen.bancoNen.repositorio.RepoCuenta;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +75,28 @@ public class CuentaService {
         cuenta.setSaldo(cuenta.getSaldo() - precio);
         repoCuenta.save(cuenta);
         System.out.println("Pago realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
+    }
+
+    public Long obtenerSaldo(int idCuenta) {
+        Optional<Cuenta> cuentaOpt = repoCuenta.findById(idCuenta);
+        if (cuentaOpt.isEmpty()) {
+            throw new IllegalArgumentException("La cuenta con ID " + idCuenta + " no existe.");
+        }
+        return cuentaOpt.get().getSaldo();
+    }
+
+    // ✅ Listar todas las cuentas existentes
+    public List<Cuenta> obtenerTodas() {
+        return repoCuenta.findAll();
+    }
+
+    @Transactional
+    public void eliminarCuenta(int idCuenta) {
+        Cuenta cuenta = repoCuenta.findById(idCuenta)
+                .orElseThrow(() -> new IllegalArgumentException("La cuenta con ID " + idCuenta + " no existe."));
+        repoCuenta.delete(cuenta);         // eliminar por entidad (más claro)
+        repoCuenta.flush();                // fuerza que Hibernate ejecute las sentencias SQL inmediatamente
+        System.out.println("Cuenta eliminada correctamente (ID: " + idCuenta + ")");
     }
 
 }
