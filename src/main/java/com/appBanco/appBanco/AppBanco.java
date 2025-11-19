@@ -1,12 +1,12 @@
-package com.bancoNen.bancoNen;
+package com.bancoNen.AppBanco;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BancoNenApplication {
+public class AppBanco {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BancoNenApplication.class, args);
+		SpringApplication.run(AppBanco.class, args);
 	}
 
 

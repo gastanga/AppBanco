@@ -1,7 +1,7 @@
-package com.bancoNen.bancoNen.services;
-import com.bancoNen.bancoNen.entidades.Cuenta;
-import com.bancoNen.bancoNen.entidades.Producto;
-import com.bancoNen.bancoNen.repositorio.RepoCuenta;
+package com.bancoNen.AppBanco.services;
+import com.bancoNen.AppBanco.entidades.Cuenta;
+import com.bancoNen.AppBanco.entidades.Producto;
+import com.bancoNen.AppBanco.repositorio.RepoCuenta;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,6 @@ public class CuentaService {
         Cuenta cuenta = cuentaOpt.get();
         cuenta.setSaldo(cuenta.getSaldo() + monto);
         repoCuenta.save(cuenta);
-        System.out.println("Depósito realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
         return cuenta.getSaldo();
     }
 
@@ -46,7 +45,6 @@ public class CuentaService {
         }
         cuenta.setSaldo(cuenta.getSaldo() - monto);
         repoCuenta.save(cuenta);
-        System.out.println("Retiro realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
         return cuenta.getSaldo();
     }
 
@@ -74,7 +72,6 @@ public class CuentaService {
         }
         cuenta.setSaldo(cuenta.getSaldo() - precio);
         repoCuenta.save(cuenta);
-        System.out.println("Pago realizado exitosamente. Nuevo saldo: " + cuenta.getSaldo());
     }
 
     public Long obtenerSaldo(int idCuenta) {
@@ -94,9 +91,7 @@ public class CuentaService {
     public void eliminarCuenta(int idCuenta) {
         Cuenta cuenta = repoCuenta.findById(idCuenta)
                 .orElseThrow(() -> new IllegalArgumentException("La cuenta con ID " + idCuenta + " no existe."));
-        repoCuenta.delete(cuenta);         // eliminar por entidad (más claro)
-        repoCuenta.flush();                // fuerza que Hibernate ejecute las sentencias SQL inmediatamente
-        System.out.println("Cuenta eliminada correctamente (ID: " + idCuenta + ")");
+        repoCuenta.delete(cuenta);
+        repoCuenta.flush();
     }
-
 }

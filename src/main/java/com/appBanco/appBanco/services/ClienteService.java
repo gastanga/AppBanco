@@ -1,11 +1,14 @@
-package com.bancoNen.bancoNen.services;
-import com.bancoNen.bancoNen.entidades.Cliente;
-import com.bancoNen.bancoNen.entidades.Cuenta;
-import com.bancoNen.bancoNen.entidades.Producto;
-import com.bancoNen.bancoNen.repositorio.RepoCliente;
-import com.bancoNen.bancoNen.repositorio.RepoCuenta;
-import com.bancoNen.bancoNen.repositorio.RepoProducto;
+package com.bancoNen.AppBanco.services;
+import com.bancoNen.AppBanco.DTO.LoginRequest;
+import com.bancoNen.AppBanco.DTO.LoginResponse;
+import com.bancoNen.AppBanco.entidades.Cliente;
+import com.bancoNen.AppBanco.entidades.Cuenta;
+import com.bancoNen.AppBanco.entidades.Producto;
+import com.bancoNen.AppBanco.repositorio.RepoCliente;
+import com.bancoNen.AppBanco.repositorio.RepoCuenta;
+import com.bancoNen.AppBanco.repositorio.RepoProducto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +25,21 @@ public class ClienteService {
     @Autowired
     private RepoProducto repoProducto;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public Cliente crearCliente(Cliente cliente) {
         String dni = cliente.getDNI();
         if (dni == null || !dni.matches("\\d{8}")) {
             throw new IllegalArgumentException("El DNI debe contener exactamente 8 dígitos numéricos.");
         }
+
+        repoCliente.findByUsuario(cliente.getUsuario()).ifPresent(c -> {
+            throw new IllegalArgumentException("El usuario ya existe.");
+        });
+
+        cliente.setContrasena(passwordEncoder.encode(cliente.getContrasena()));
+
         Cliente clienteGuardado = repoCliente.save(cliente);
 
         Cuenta cuenta = new Cuenta();
@@ -46,7 +59,8 @@ public class ClienteService {
     private String generarNumeroCuentaUnico() {
         String numeroCuenta;
         do {
-            numeroCuenta = String.format("%016d", new java.util.Random().nextLong(1_0000_0000_0000_0000L));
+            long randomNum = Math.abs(new java.util.Random().nextLong());
+            numeroCuenta = String.format("%016d", randomNum);
         } while (repoCuenta.existsByNumeroCuenta(numeroCuenta));
         return numeroCuenta;
     }
@@ -66,8 +80,6 @@ public class ClienteService {
         }
         repoCliente.deleteById(idCliente);
     }
-
-    //Asignar cuenta al Cliente
 
     public void asignarCuenta(int idCliente, Cuenta cuenta) {
         Cliente cliente = buscarPorId(idCliente);
@@ -101,14 +113,20 @@ public class ClienteService {
         repoCliente.save(cliente);
     }
 
-    public Cliente iniciarSesion (String usuario, String contrasena) {
-        Cliente cliente = repoCliente.findByUsuario(usuario)
-                        .orElseThrow(() -> new IllegalArgumentException("El usuario " + usuario + " no existe."));
-                if (!cliente.getContrasena().equals(contrasena)) {
-            throw new IllegalArgumentException("Contraseña incorrecta para el usuario " + usuario + ".");
-                }
-        System.out.println("Inicio de sesión exitoso para el usuario " + usuario + ".");
-        return cliente;
+    public LoginResponse iniciarSesion(LoginRequest request) {
+
+        Cliente cliente = repoCliente.findByUsuario(request.getUsuario())
+                .orElseThrow(() -> new IllegalArgumentException("El usuario " + request.getUsuario() + " no existe."));
+
+        if (!passwordEncoder.matches(request.getContrasena(), cliente.getContrasena())) {
+            throw new IllegalArgumentException("Contraseña incorrecta.");
+        }
+
+        LoginResponse response = new LoginResponse();
+        response.setMensaje("Login exitoso.");
+        response.setIdCliente(cliente.getId());
+
+        return response;
     }
 
     public Long consultarSaldo (int idCliente) {
@@ -117,8 +135,6 @@ public class ClienteService {
         if (cuenta == null) {
             throw new IllegalArgumentException("El cliente con ID " + idCliente + " no tiene una cuenta asociada.");
         }
-        System.out.println("El saldo de la cuenta del cliente " + cliente.getUsuario() + " es: " + cuenta.getSaldo());
         return cuenta.getSaldo();
     }
-
 }

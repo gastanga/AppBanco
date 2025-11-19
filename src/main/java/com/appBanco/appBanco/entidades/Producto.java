@@ -1,4 +1,5 @@
-package com.bancoNen.bancoNen.entidades;
+package com.bancoNen.AppBanco.entidades;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ public class Producto {
     @GeneratedValue (strategy = jakarta.persistence.GenerationType.AUTO)
     private int id;
     @ManyToOne
+    @JsonBackReference
     private Cliente clienteAsociado;
     private String nombre;
     @Enumerated(EnumType.STRING)

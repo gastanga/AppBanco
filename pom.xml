@@ -8,10 +8,10 @@
 		<version>3.5.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.bancoNen</groupId>
-	<artifactId>bancoNen</artifactId>
+	<groupId>com.appbanco</groupId>
+	<artifactId>app-banco</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>bancoNen</name>
+	<name>AppBanco</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -31,6 +31,10 @@
 		<spring-ai.version>1.0.3</spring-ai.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

@@ -1,4 +1,5 @@
-package com.bancoNen.bancoNen.entidades;
+package com.bancoNen.AppBanco.entidades;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ public class Cuenta {
     private int id;
     @OneToOne
     @JoinColumn (name = "cliente_id")
+    @JsonBackReference
     private Cliente clienteAsociado;
     private Long saldo = 0L;
     @Column(unique = true)

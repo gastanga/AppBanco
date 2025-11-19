@@ -1,10 +1,11 @@
-package com.bancoNen.bancoNen.restController;
-import com.bancoNen.bancoNen.DTO.ClienteDTO;
-import com.bancoNen.bancoNen.entidades.Cliente;
-import com.bancoNen.bancoNen.entidades.Cuenta;
-import com.bancoNen.bancoNen.entidades.Producto;
-import com.bancoNen.bancoNen.services.ClienteService;
-import com.bancoNen.bancoNen.services.CuentaService;
+package com.bancoNen.AppBanco.restController;
+import com.bancoNen.AppBanco.DTO.ClienteDTO;
+import com.bancoNen.AppBanco.DTO.ClienteRequest;
+import com.bancoNen.AppBanco.DTO.CuentaDTO;
+import com.bancoNen.AppBanco.entidades.Cliente;
+import com.bancoNen.AppBanco.services.ClienteService;
+import com.bancoNen.AppBanco.services.CuentaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,16 @@ public class ClienteRestController {
 
     // POST para crear un cliente
     @PostMapping("/crear")
-    public ResponseEntity<ClienteDTO> crearCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteDTO> crearCliente(@RequestBody @Valid ClienteRequest request) {
+        Cliente cliente = new Cliente();
+        cliente.setNombres(request.getNombres());
+        cliente.setApellidos(request.getApellidos());
+        cliente.setUsuario(request.getUsuario());
+        cliente.setContrasena(request.getContrasena());
+        cliente.setDNI(request.getDNI());
+        cliente.setMail(request.getMail());
+        cliente.setEdad(request.getEdad());
+
         Cliente clienteGuardado = clienteService.crearCliente(cliente);
         return ResponseEntity.ok(new ClienteDTO(clienteGuardado));
     }
@@ -46,9 +56,12 @@ public class ClienteRestController {
 
     // ✅ Listar todas las cuentas
     @GetMapping("/cuentas")
-    public ResponseEntity<List<Cuenta>> listarCuentas() {
-        List<Cuenta> cuentas = cuentaService.obtenerTodas();
-        return ResponseEntity.ok(cuentas);
+    public ResponseEntity<List<CuentaDTO>> listarCuentas() {
+        List<CuentaDTO> cuentasDTO = cuentaService.obtenerTodas()
+                .stream()
+                .map(CuentaDTO::new)
+                .toList();
+        return ResponseEntity.ok(cuentasDTO);
     }
 
     // ✅ Eliminar una cuenta (por cascada)
