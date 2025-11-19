@@ -1,6 +1,6 @@
-package com.bancoNen.AppBanco.services;
-import com.bancoNen.AppBanco.entidades.Producto;
-import com.bancoNen.AppBanco.repositorio.RepoProducto;
+package com.appBanco.appBanco.services;
+import com.appBanco.appBanco.entidades.Producto;
+import com.appBanco.appBanco.repositorio.RepoProducto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

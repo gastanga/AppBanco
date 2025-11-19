@@ -1,7 +1,7 @@
-package com.bancoNen.AppBanco.services;
-import com.bancoNen.AppBanco.entidades.Cuenta;
-import com.bancoNen.AppBanco.entidades.Producto;
-import com.bancoNen.AppBanco.repositorio.RepoCuenta;
+package com.appBanco.appBanco.services;
+import com.appBanco.appBanco.entidades.Cuenta;
+import com.appBanco.appBanco.entidades.Producto;
+import com.appBanco.appBanco.repositorio.RepoCuenta;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

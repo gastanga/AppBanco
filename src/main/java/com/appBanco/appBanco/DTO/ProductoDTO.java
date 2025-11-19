@@ -1,5 +1,5 @@
-package com.bancoNen.AppBanco.DTO;
-import com.bancoNen.AppBanco.entidades.Producto;
+package com.appBanco.appBanco.DTO;
+import com.appBanco.appBanco.entidades.Producto;
 import lombok.Data;
 
 @Data

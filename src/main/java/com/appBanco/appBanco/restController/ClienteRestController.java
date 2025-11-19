@@ -1,10 +1,10 @@
-package com.bancoNen.AppBanco.restController;
-import com.bancoNen.AppBanco.DTO.ClienteDTO;
-import com.bancoNen.AppBanco.DTO.ClienteRequest;
-import com.bancoNen.AppBanco.DTO.CuentaDTO;
-import com.bancoNen.AppBanco.entidades.Cliente;
-import com.bancoNen.AppBanco.services.ClienteService;
-import com.bancoNen.AppBanco.services.CuentaService;
+package com.appBanco.appBanco.restController;
+import com.appBanco.appBanco.DTO.ClienteDTO;
+import com.appBanco.appBanco.DTO.ClienteRequest;
+import com.appBanco.appBanco.DTO.CuentaDTO;
+import com.appBanco.appBanco.entidades.Cliente;
+import com.appBanco.appBanco.services.ClienteService;
+import com.appBanco.appBanco.services.CuentaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

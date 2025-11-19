@@ -1,4 +1,4 @@
-package com.bancoNen.AppBanco;
+package com.appBanco.appBanco;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -1,5 +1,5 @@
-package com.bancoNen.AppBanco.DTO;
-import com.bancoNen.AppBanco.entidades.Cuenta;
+package com.appBanco.appBanco.DTO;
+import com.appBanco.appBanco.entidades.Cuenta;
 import lombok.Getter;
 import lombok.Setter;
 

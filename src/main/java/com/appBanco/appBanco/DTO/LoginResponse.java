@@ -1,4 +1,4 @@
-package com.bancoNen.AppBanco.DTO;
+package com.appBanco.appBanco.DTO;
 
 public class LoginResponse {
     private String mensaje;

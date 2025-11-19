@@ -1,6 +1,7 @@
-package com.bancoNen.AppBanco.restController;
-import com.bancoNen.AppBanco.DTO.*;
-import com.bancoNen.AppBanco.services.ClienteService;
+package com.appBanco.appBanco.restController;
+import com.appBanco.appBanco.DTO.LoginRequest;
+import com.appBanco.appBanco.DTO.LoginResponse;
+import com.appBanco.appBanco.services.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

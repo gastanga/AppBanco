@@ -1,4 +1,4 @@
-package com.bancoNen.AppBanco.entidades;
+package com.appBanco.appBanco.entidades;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;

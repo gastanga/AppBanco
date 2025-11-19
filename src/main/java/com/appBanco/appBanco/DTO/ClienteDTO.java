@@ -1,5 +1,5 @@
-package com.bancoNen.AppBanco.DTO;
-import com.bancoNen.AppBanco.entidades.Cliente;
+package com.appBanco.appBanco.DTO;
+import com.appBanco.appBanco.entidades.Cliente;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;

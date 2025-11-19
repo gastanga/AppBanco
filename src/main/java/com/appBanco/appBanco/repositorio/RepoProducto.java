@@ -1,5 +1,5 @@
-package com.bancoNen.AppBanco.repositorio;
-import com.bancoNen.AppBanco.entidades.Producto;
+package com.appBanco.appBanco.repositorio;
+import com.appBanco.appBanco.entidades.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

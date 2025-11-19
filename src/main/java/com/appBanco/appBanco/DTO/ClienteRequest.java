@@ -1,4 +1,4 @@
-package com.bancoNen.AppBanco.DTO;
+package com.appBanco.appBanco.DTO;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
